@@ -1,0 +1,183 @@
+﻿
+
+@model Course
+@inject CourseProvider.Interface.ICourseRepository course
+@inject CourseProvider.Interface.ISkillRepository skill
+@inject CourseProvider.Interface.IMaterialRepository material
+
+@using CourseProvider.Interface
+
+@{
+
+    CookieHandler<Entity> handler = new CookieHandler<Entity>(Context.Request.Cookies);
+
+    Console.WriteLine(handler.GetModel("skill"));
+    Console.WriteLine(handler.GetModel("material"));
+
+    Material mat = await material.GetByIdAsync(handler.GetModel("material")); 
+    Skill skil = await skill.GetByIdAsync(handler.GetModel("skill"));
+
+    if (skil != null)
+    {
+        Console.WriteLine(skil.Name);
+    }
+
+    if (mat != null)
+    {
+        Console.WriteLine(mat.Name);   
+    }
+
+}
+
+<style>
+    .formContainer
+    {
+        display: flex;
+        justify-content:center;
+        width : 100%;
+        height : 60%;
+        background-color : aquamarine;
+        border-radius : 30px;
+
+    }
+
+    .formContianerContent
+    {
+        display : flex;
+        flex-direction : column;
+        justify-content : center;
+        align-items :center;
+        width : 50%;
+        background-color : cadetblue;
+    }
+
+    .buttonContainer
+    {
+        display: flex;
+        align-items : center;
+        margin-top : 2rem;
+    }
+
+    .formContentContainer
+    {
+        display :flex;
+        flex-direction : column;
+        justify-content : center;
+    }
+
+    .dropdown
+    {
+        display : inline-block;
+        position : relative;
+    }
+
+    .dropdownContent
+    {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdownContent a:hover 
+    {
+        background-color : dodgerblue;
+        cursor : pointer;
+    }
+
+    .dropdown:hover .dropdownContent 
+    {
+        display : block;
+    }
+
+    
+</style>
+
+<body>
+    <div class="formContainer">
+        <div class="formContianerContent">
+            <form asp-controller="Course" asp-action="Update" asp-route-id="@Model.Id" enctype="multipart/form-data" >
+                <div class="formContentName">
+                    <label class="form-label">Name</label><br />
+                    <input class="form-control" type="text" placeholder="@Model.Name" asp-for="Name"></input>
+                </div>
+              
+                <br/>
+                <div class="formContentName">
+                    <label class="form-label">Description</label><br />
+                    <textarea class="form-control" placeholder="@Model.Description" style="width: 200px; height: 200px" asp-for="Description"></textarea>
+                </div>
+                <br/>
+                <div class="formContentName">
+                    <label class="form-label">Image:</label>
+                    <br/>
+                    <input class="form-control" type="file" asp-for="Image"></input>
+                </div>
+                </br>
+               
+                <div class="formContentContainer">
+                   <div class="buttonContainer dropdown">
+                         @if (skill.GetById(handler.GetModel("skill")) != null)
+                        {
+                            <p >@skill.GetById(handler.GetModel("skill")).Name</p>
+                           // <input type="text" value="@ViewData["skill"]" placeholder="@ViewData["name"]"></input>
+                        }
+                        <button class="btn btn-secondary">
+                            Add a skill to this Course
+                        </button>
+                        <div class="dropdownContent">
+                            <ul class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px">
+                                @foreach (var item in skill.GetAll().Result)
+                                {
+
+                                    <a asp-controller="Course" asp-action="AddList" asp-route-skill="@item.Id" asp-route-id="@Model.Id"
+                                        enctype="multipart/form-data" class="dropdown-item rounded-2" >@item.Name</a>
+                                   @*  if (ViewData["skill"] == null)
+                                    {
+                                        <a asp-controller="Course" asp-action="AddList" asp-route-skill="@item.Id" asp-route-id="@Model.Id"
+                                        enctype="multipart/form-data" class="dropdown-item rounded-2" >@item.Name</a>
+                                    }
+
+                                    else
+                                    {
+                                        <a class="dropdown-item rounded-2">@item.Name</a>
+                                    } *@
+
+                                }
+                                <li><hr class="dropdown-divider"></li>
+                            </ul>
+                           
+                        </div>
+                    </div>
+
+                    <div class="buttonContainer dropdown">
+                        @if (mat != null)
+                        {
+                            <p>@mat.Name</p>
+                        }
+                        <button class="btn btn-secondary">
+                            Add a material to this Course
+                        </button>
+                        <div class="dropdownContent">
+                            <ul class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px">
+                                @foreach (var item in material.GetAll().Result)
+                                {
+                                    <a asp-controller="Course" asp-action="ChooseMaterial" asp-route-material="@item.Id" asp-route-Id="@Model.Id"
+                                    enctype="multipart=form-data" class="dropdown-item rounded-2" >@item.Name</a>
+                                }
+                                <li><hr class="dropdown-divider"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <br/>
+                    <button class="btn btn-primary">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</body>

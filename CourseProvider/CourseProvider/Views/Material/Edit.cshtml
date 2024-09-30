@@ -1,0 +1,39 @@
+﻿
+
+@inject CourseProvider.Interface.IMaterialRepository material
+@model Material
+
+@{
+
+}
+
+<style>
+
+</style>
+
+<body>
+    <form asp-controller="Material" asp-action="Update" asp-route-id="@Model.Id" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input asp-for="Name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="nameHelp" placeholder="@Model.Name">
+            <div id="namelHelp" class="form-text">Choose a unique name.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Author</label>
+            <input asp-for="Author" type="text" class="form-control" id="Author" placeholder="@Model.Author">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Number of Pages</label>
+            <input asp-for="NumberOfPages" type="number" class="form-control" id="pages" placeholder="@Model.NumberOfPages">
+        </div>
+        <div class="mb-3 form-check">
+            <label class="form-label" >Year of publication</label>
+            <input asp-for="YearOfPublication" type="date" class="form-control" id="data" placeholder="=@Model.YearOfPublication">
+        </div>
+        <div class="mb-3 form-check">
+            <label class="form-label">Format</label>
+            <input asp-for="Format" type="text" class="form-control" id="format" placeholder="@Model.Format">
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</body>

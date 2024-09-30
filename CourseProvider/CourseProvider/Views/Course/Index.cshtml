@@ -1,0 +1,209 @@
+﻿@model IEnumerable<Course>
+@inject CourseProvider.Interface.ICourseRepository course
+@inject CourseProvider.Interface.ISkillRepository skill
+
+@using CourseProvider.Data
+@using CourseProvider.Wrapper
+
+@{
+   
+
+    MySession session = new MySession(Context.Session);
+    User user = session.GetUser();
+}
+
+<style>
+
+    .container
+    {
+        display: flex;
+        align-items : center;
+        font-size : 20px;
+        width : 900px;
+    }
+
+    .tablestyle
+    {
+        display : flex;
+        width : 100%;
+    }
+
+    .orderItems
+    {
+        display : flex;
+        justify-content : center;
+        align-items : center;
+        flex-direction : column;
+        gap : 0.5rem;
+    }
+
+    .dropdown
+    {
+        display: inline-block;
+        position: relative;
+    }
+
+    .dropdownContent
+    {
+        display : none;
+        position : absolute;
+        background-color : azure;
+        justify-content: center;
+        align-items :center;
+        width : 80px;
+        height : 50px;
+        z-index : 1;
+        left : 100%;
+        top : 0%;
+    }
+
+
+
+    .dropdown:hover .dropdownContent
+    {
+        display : inline-flex;
+        float : inline-end;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>
+
+<body>
+    <div class="container">
+        <div class="tablestyle flex-column">
+            <table class="table table-bordered table-responsive table" style="width : 100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>SkillCount</th>
+                        <th>MaterialCount</th>
+                        <th>UserCount</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (var item in course.GetAll().Result)
+                    {
+                        <tr >
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+
+                            @if (item.Skills == null)
+                            {
+                                <td>@course.GetSkills().Result.Count</td>
+                            }
+                            else
+                            {
+                                //<td>@course.GetRepository(item.Id).GetSkills().Result.Count</td>
+                                <td>@item.Skills.ToList().Count</td>    
+                            }
+
+                            @if (item.Materails == null)
+                            {
+                                <td>0</td>
+                            }
+                            else
+                            {
+                                <td>@item.Materails.Count</td>    
+                            }
+
+                            @if (item.Users == null)
+                            {
+                                <td>0</td>
+                            }
+                            else
+                            {
+                                <td>@item.Users.Count</td>
+                            }
+                            <td class=" orderItems">
+                                <div class="dropdown">
+                                    <div>
+                                        <form class="btn" asp-controller="Course" asp-action="Detail" method="post" asp-route-id="@item.Id">
+                                            <button class="btn btn-primary" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ticket-detailed" viewBox="0 0 16 16">
+                                                    <path d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M5 7a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2z" />
+                                                    <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5V6a.5.5 0 0 1-.5.5 1.5 1.5 0 0 0 0 3 .5.5 0 0 1 .5.5v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5V10a.5.5 0 0 1 .5-.5 1.5 1.5 0 1 0 0-3A.5.5 0 0 1 0 6zM1.5 4a.5.5 0 0 0-.5.5v1.05a2.5 2.5 0 0 1 0 4.9v1.05a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-1.05a2.5 2.5 0 0 1 0-4.9V4.5a.5.5 0 0 0-.5-.5z" />
+                                                </svg>
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                    <div class="dropdownContent">
+                                        <a>Detail</a>
+                                    </div>
+                                </div>
+                               
+                                <div class="dropdown">
+                                    <div>
+                                        <form asp-controller="Course" asp-action="Edit" method="post" asp-route-id="@item.Id">
+                                            <button class="btn btn-primary" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+                                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001" />
+                                                </svg>
+                                            </button>
+
+                                        </form>
+                                    </div>
+
+                                    <div class="dropdownContent">
+                                        <a>Edit</a>
+                                    </div>
+                                </div>
+                               
+                             
+                                <div class="dropdown">
+
+                                    <div>
+                                        <form asp-controller="Course" asp-action="Delete" method="post" asp-route-id="@item.Id">
+                                            <button class="btn btn-primary" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                                </svg>
+                                            </button>
+
+                                        </form>
+                                    </div>
+
+                                    <div class="dropdownContent">
+                                        <a>Delete</a>
+                                    </div>
+                                </div>
+
+                                @if (user != null)
+                                {
+                                    <div class="dropdown">
+                                        <div>
+                                            <form asp-controller="User" asp-action="AddCourse" asp-route-id="@item.Id" method="post">
+                                                <button class="btn btn-primary">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+
+                                        <div class="dropdownContent">
+                                            <a>Add Course</a>
+                                        </div>
+                                    </div>
+                                }
+                               
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <form asp-controller="Course" asp-action="AddCourse" method="get">
+                <button class="btn btn-primary" type="submit">Add new Course</button>
+            </form>
+        </div>
+       
+    </div>
+   
+</body>

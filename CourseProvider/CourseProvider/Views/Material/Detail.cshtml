@@ -1,0 +1,85 @@
+﻿
+@model Material
+@inject CourseProvider.Interface.ICourseRepository course
+
+@{
+
+}
+
+<style>
+
+</style>
+
+<body>
+    <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Material Details</h4>
+        <form class="needs-validation" novalidate=""> 
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="@Model.Name" value="" required="">
+              <div class="invalid-feedback">
+                Valid first name is required.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Date of publication</label>
+              <input type="text" class="form-control" id="lastName" placeholder="@Model.DateOfPublication" value="" required="">
+              <div class="invalid-feedback">
+                Valid last name is required.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="username" class="form-label">Data carrier</label>
+              <div class="input-group has-validation">
+                <span class="input-group-text"></span>
+                <input type="text" class="form-control" id="username" placeholder="@Model.DataCarrier" required="">
+              <div class="invalid-feedback">
+                  Your username is required.
+                </div>
+              </div>
+            </div>
+
+           
+
+          <hr class="my-4">
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+        </form>
+        <div class="col-12">
+            <label for="email" class="form-label">Duration <span class="text-body-secondary">(Optional)</span></label>
+            <input type="email" class="form-control" id="email" placeholder="@Model.Duration>
+            <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+            </div>
+        </div>
+
+        <div class="col-12">
+            <label for="address" class="form-label">Quality</label>
+            <input type="text" class="form-control" id="address" placeholder="@Model.Quality" required="">
+            <div class="invalid-feedback">
+                Please enter your shipping address.
+            </div>
+        </div>
+
+        <div class="col-12">
+            <label for="address2" class="form-label">Author <span class="text-body-secondary">(Optional)</span></label>
+            <input type="text" class="form-control" id="address2" placeholder="@Model.Author">
+        </div>
+
+        <div class="col-12">
+            <label for="address2" class="form-label">Number of pages <span class="text-body-secondary">(Optional)</span></label>
+            <input type="text" class="form-control" id="address2" placeholder="@Model.NumberOfPages">
+        </div>
+        <div class="col-12">
+            <label for="address2" class="form-label">Year of publication <span class="text-body-secondary">(Optional)</span></label>
+            <input type="text" class="form-control" id="address2" placeholder="@Model.YearOfPublication">
+        </div>
+        <div class="col-12">
+            <label for="address2" class="form-label">Format <span class="text-body-secondary">(Optional)</span></label>
+            <input type="text" class="form-control" id="address2" placeholder="@Model.Format">
+        </div>
+    </div>
+    </div>
+</body>

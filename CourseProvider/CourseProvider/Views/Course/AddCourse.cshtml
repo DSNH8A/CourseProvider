@@ -1,0 +1,99 @@
+﻿
+@model Course 
+@inject CourseProvider.Interface.ICourseRepository course
+
+@{
+
+}
+
+<style>
+    .addContainer
+    {
+        width : 100%;
+        display: flex;
+        align-items :center;
+        justify-content : center;
+        background-color : aquamarine;
+        height : 600px;
+        border-radius : 30px;
+    }
+
+    .addcontent
+    {
+        width : 50%;
+        justify-content: center;
+        display : flex;
+        flex-direction : column;
+        min-height : 300px;
+        background-color : cornflowerblue;
+        border-radius : 20px;
+    }
+
+    .addform
+    {
+        display : flex;
+        flex-direction : column;
+        justify-content : center;
+        align-items : center;
+    }
+
+    .addFormName
+    {
+        display : flex;
+        flex-direction : column;
+        justify-content :center;
+        width : 50%;
+        margin-top : 1rem;
+        margin-bottom : 1rem;
+    }
+
+    .addFormDescription
+    {
+       
+    }
+
+    .addFormDescription label
+    {
+            font-size: 20px;
+            margin-bottom: 0.5rem;
+    }
+
+    .addFormName label
+    {
+        font-size : 20px;
+        margin-bottom : 0.5rem;
+    }
+
+</style>
+
+<body>
+    <div class="addContainer">
+        <div class="addcontent">
+            <form class="addform" asp-controller="Course" asp-action="AddCourse" method="post" enctype="multipart/form-data">
+                <div class="addFormName">
+                    <label>
+                        Name:
+                    </label>
+                    <input type="text" placeholder="Name" asp-for="Name" />
+                </div>
+                <br />
+                <div class="addFormDescription">
+                    <label>
+                        Description:
+                    </label><br/>
+                    <textarea placeholder="Description" asp-for="Description" style="height:200px; width: 200px"></textarea>
+                </div>
+                <div class="addImage">
+                    <lable>
+                        Image:
+                    </lable><br/>
+                    <input type="file" asp-for="Image"/><br/>
+                </div>
+              
+                <button type="submit" class="btn btn-secondary m-2">Add Course</button>
+            </form>
+           
+        </div>
+       
+    </div>
+</body>

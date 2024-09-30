@@ -1,0 +1,37 @@
+﻿
+@model User
+@inject CourseProvider.Interface.IUserRepository user
+
+@using CourseProvider.Wrapper;
+
+@{
+    var session = new MySession(Context.Session);
+    User user = session.GetUser();
+}
+
+<style>
+
+    .indexContainer
+    {
+        display : flex;
+        width : 100%;
+        align-items : center;
+        justify-content : center;
+        background-color : cornflowerblue;
+    }
+
+    .indexContent
+    {
+        display : flex;
+        justify-content : center;
+    }
+
+</style>
+
+<body>
+    <div class="indexContainer">
+        <div class="indexContainer">
+            <p>@Model.Id</p>
+        </div>
+    </div>
+</body>

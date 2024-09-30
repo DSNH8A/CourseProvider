@@ -1,0 +1,62 @@
+﻿
+@model Skill
+@inject CourseProvider.Interface.ISkillRepository skill
+
+@{
+
+}
+
+<style>
+    .editContainer
+    {
+        width : 100%;
+        justify-content : center;
+        align-items : center;
+        display : flex;
+        background-color : aquamarine;
+        height : 600px;
+        border-radius : 30px;
+    }
+
+    .editContainerContent
+    {
+        display : flex;
+        width : 50%;
+        background-color : cadetblue;
+        justify-content : center;
+        flex-direction : column;
+        height : 50%;
+        border-radius : 20px;
+    }
+
+    .editForm
+    {
+        display :flex;
+        flex-direction : column;
+        align-items : center;
+        justify-content : center;
+        width : 50%;
+    }
+
+    .editForm label
+    {
+        font-size : 24px;
+        font-weight : 500;
+    }
+
+</style>
+
+<body>
+    <div class="editContainer">
+        <div class="editContainerContent">
+            <form class="editForm" asp-controller="Skill" asp-route-id="@Model.Id"  asp-action="Update" enctype="multipart/form-data" asp-antiforgery="true">
+
+                <label>Name:</label><br />
+                <input asp-for="Name" type="text"></input>
+
+                <button type="submit" class="btn btn-primary m-2">Save Changes</button>
+            </form>
+           
+        </div>
+    </div>
+</body>

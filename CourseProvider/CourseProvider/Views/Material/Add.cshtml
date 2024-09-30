@@ -1,0 +1,151 @@
+﻿
+@model Material
+@inject CourseProvider.Interface.IMaterialRepository material
+
+@{
+    Console.WriteLine(ViewData["type"]);
+}
+
+<style>
+
+    .addContainer
+    {
+        display:flex;
+        width : 100%;
+        background-color : aquamarine;
+        justify-content : center;
+        align-items : center;
+        border-radius : 30px;
+        height :auto;
+        min-height : 600px;
+    }
+
+    .addContent
+    {
+        display :flex;
+        width : 50%;
+        height : auto;
+        min-height : 50%;
+        background-color : cadetblue;
+        justify-content : center;
+        align-items : center;
+        border-radius : 20px;
+    }
+
+    .formContent
+    {
+        display : flex;
+        flex-direction : column;
+    }
+
+    .formContent label
+    {
+        font-size : 24px;
+        font-weight : 500;
+    }
+
+    .formContent button
+    {
+        margin-top : 2rem;
+        margin-bottom : 2rem;
+    }
+
+    .errorContent
+    {
+
+    }
+
+</style>
+
+<body>
+    <div class="addContainer">
+        <div class="addContent">
+            @if(ViewData != null)
+            {
+                @if (ViewData["type"].Equals(Material.Types.ELECTRONI_CPOPIES))
+                {
+                    <form class="formContent" asp-controller="Material" asp-action="Add" method="post" enctype="multipart/form-data">
+
+                        <label>Name:</label><br/>
+                        <input asp-for="Name" type="text"></input>
+                        <br/>
+
+                        <label>Author:</label><br />
+                        <input asp-for=Author type="text"></input>
+                        <br/>
+
+                        <label>Number of Pages:</label><br />
+                        <input asp-for="NumberOfPages" type="number"></input>
+                        <br/>
+
+                        <label>Year of publication:</label><br />
+                        <input asp-for="YearOfPublication" type="date"></input>
+                        <br/>
+
+                        <label>Format:</label><br />
+                        <input asp-for="Format" type="text"></input>
+                        <br/>
+
+                        <button type="submit" class="btn btn-primary"> Add electronic copy</button>
+                    </form>
+                }
+
+                @if (ViewData["type"].Equals(Material.Types.ONLINE_ARTICLE))
+                {
+                    <form class="formContent" asp-controller="Material" asp-action="Add" enctype="multipart/form-data">
+
+                         <label>Name:</label><br />
+                         <input asp-for="Name" type="text"></input>
+                         <br />
+
+                         <label>Date of publication:</label><br />
+                         <input asp-for=DateOfPublication type="date"></input>
+                         <br/>
+
+                         <label>DataCarrier:</label><br />
+                         <input asp-for="DataCarrier" type="text"></input>
+                         <br/>
+
+                        <button type="submit" class="btn btn-primary">Add online article</button>
+                    </form>
+                        
+                }
+
+                @if (ViewData["type"].Equals(Material.Types.VIDEO_MATERIAL))
+                {
+                    <form class="formContent" asp-controller="Material" asp-action="Add">
+
+                        <label>Name:</label><br />
+                        <input asp-for="Name" type="text"/>
+                        <span asp-validation-for="Name"></span>
+                        <br />
+                        
+
+                        <label>Duration:</label><br />
+                        <input asp-for="Duration" type="number"></input>
+                        <br/>
+
+                         <label>Quality:</label><br />
+                        <input asp-for="Quality" type="text"></input>
+                        <br/>
+
+                        <button type="submit" class="btn btn-primary">Add video material</button>
+                    </form>
+                }
+        }
+
+        else
+        {
+            <div>
+                <h1>
+                    Error
+                </h1>
+                <br/>
+                <p>Provided Data is Insufficient</p>
+                <button>Go back materials</button>
+            </div>        
+        }
+
+        </div>
+    </div>
+</body>

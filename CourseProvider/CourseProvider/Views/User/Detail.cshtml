@@ -1,0 +1,239 @@
+﻿
+@model User
+@inject CourseProvider.Interface.IUserRepository user
+@inject CourseProvider.Interface.ICourseRepository course
+@inject CourseProvider.Interface.ISkillRepository skill
+
+@{
+
+    List<Skill> skills = new List<Skill>();
+
+    foreach (var item in Model.Skills)
+    {
+        Skill newSkill =await skill.GetByIdAsync(item);
+        skills.Add(newSkill);
+    }
+
+    List<Course> courses = new List<Course>();
+
+    foreach (var item in Model.Courses)
+    {
+        Course newCourse = await course.GetByIdAsync(item);
+        courses.Add(newCourse);
+    }
+
+}
+
+<style>
+
+    .detailContainer
+    {
+        display : flex;
+        width : 100%;
+        justify-content : center;
+        align-items : center;
+        background-color : cornflowerblue;
+        height : auto;
+        min-height  : 600px;
+        border-radius : 30px;
+    }
+
+    .detailContent
+    {
+        display : flex;
+        flex-direction : column;
+        justify-content : center;
+        align-items : center;
+        background-color : lightcyan;
+        border-radius : 20px;
+        width : 50%;
+    }
+
+    .detailContent label
+    {
+        font-size : 20px;
+    }
+
+    .image {
+        /*object-fit : fill;*/
+        width: 100%;
+        height: 150px;
+    }
+
+    .grid-container {
+        box-sizing: border-box;
+        display: grid;
+        grid-template-columns: auto, auto, auto;
+        align-items: center;
+        justify-items: center;
+        width: 100%;
+        column-gap: 10px;
+    }
+
+    .griditem {
+        background-color: white;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .paragraph {
+        text-anchor: middle;
+        font-size : 20px;
+    }
+
+    .button-container {
+        display: flex;
+        align-items: start;
+        justify-content: flex-start;
+        margin-left: 20px;
+    }
+
+    .button {
+        vertical-align: middle;
+        position: relative;
+        display: inline-flex;
+        margin: 10px;
+    }
+
+    .description {
+        display: flex;
+        justify-content: flex-start;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    .sanyika {
+        margin-top: 20px;
+    }
+
+    .size
+    {
+        display : flex;
+        width : 80%;
+    }
+
+    .gridContainerTitleContainer
+    {
+        display :flex;
+        width : 100%;
+        justify-content : flex-start;
+        margin-top : 2rem;
+    }
+
+    .gridContainerTitle
+    {
+        display : flex;
+        justify-content : flex-start;
+        margin-bottom : 3rem;
+    }
+
+</style>
+
+
+<body>
+    <div class="detailContainer">
+        <div class="detailContent">
+            <h2>@Model.UserName</h2>
+
+            <label>Courses:</label>
+            @if (Model.Courses != null)
+            {
+                foreach (var item in courses)
+                {
+                    <p>@item.Name</p>
+                }
+            }
+
+            else
+            {
+                <p>0</p>    
+            } 
+            <button class="btn btn-secondary">Add Course</button>
+            <label>Skills:</label>
+            @if (Model.Skills != null)
+            {
+                <p>sanyika</p>    
+            }
+            
+
+        </div>
+    </div>
+
+    <div class="grid-container center">
+        <div class="gridContainerTitleContainer">
+            <div class="gridContainerTitle">
+                <h2>Courses</h2>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-2 row-cols-3 size">
+          
+            @foreach (var item in courses)
+            {
+                <div class="col sanyika">
+                    <div class="griditem">
+                        @if (item.Image != null)
+                        {
+                            <img class="image" src="@item.Image"></img>
+                        }
+                        else
+                        {
+                            <img class="image" src="~/effect.jpg" height="200px"></img>
+                        }
+                        <p class="paragraph">@item.Name</p>
+                        <p>Number of users who also have this : @item.Users?.Count</p>
+                        <div class="description">
+                            <p style="width:auto; height:auto "> @item.Description</p>
+                        </div>
+                        <div class="button-container">
+                            <form asp-controller="Course" asp-action="Detail" asp-route-id="@item.Id" class="button">
+                                <button class="btn btn-sm btn-outline-dark btn-primary" type="submit">
+                                    Detail
+                                </button>
+                            </form>
+                            <form asp-controller="Course" asp-action="Edit" asp-route-id="@item.Id" method="post" class="button">
+                                <button class="btn btn-sm btn-outline-dark btn-primary" type="submit">
+                                    Edit
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div>
+        <table>
+            <h1>Skills</h1>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (var item in skills)
+                    {
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.Name
+                        </td>
+                    }
+                   
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>

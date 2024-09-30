@@ -1,0 +1,75 @@
+﻿
+@model Skill
+@inject CourseProvider.Interface.ISkillRepository skill
+
+@{
+
+}
+
+<style>
+    .detailContainer {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        background-color: aquamarine;
+        border-radius: 30px;
+        height: 600px;
+        font-size: 20px;
+        justify-content: center;
+    }
+
+    .detailContent {
+        display: flex;
+        width: 50%;
+        justify-content: center;
+        flex-direction: column;
+        background-color: cadetblue;
+    }
+
+    .detailFormContainer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .detailContentNames {
+        display: flex;
+        justify-content: center;
+        font-weight: 500;
+        flex-direction: column;
+        margin: 2rem;
+    }
+
+    .detailFormContent {
+        margin-top: 3rem;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+        margin-bottom: 2rem;
+    }
+</style>
+
+<body>
+     <div class="detailContainer">
+        <div class="detailContent">
+            <div class="detailContentNames">
+                <h3>
+                    Name:
+                </h3>
+                <p>@Model.Name</p>
+            </div>
+                
+            <div class="detailFormContainer">
+                <form class="detailFormContent" asp-controller="Course" asp-action="Edit">
+                    <button class="btn btn-secondary" type="submit">
+                        Edit
+                    </button>
+                </form>
+                <form class="detailFormContent" asp-controller="Course" asp-action="Delete">
+                    <button class="btn btn-secondary" type="submit">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div
+     </div>
+</body>
